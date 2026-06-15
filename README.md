@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# Minimal Todo List App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend da aplicação de lista de tarefas com autenticação de usuário, desenvolvido com React, TypeScript, Vite e Tailwind CSS.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Cadastro de usuário
+- Login com token JWT
+- Recuperação da sessão ao recarregar a página
+- Listagem de tarefas por data
+- Criação de tarefas com categoria
+- Marcação de tarefas como pendentes ou concluídas
+- Exclusão de tarefas
+- Logout do usuário autenticado
 
-## React Compiler
+## Requisitos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 20+
+- npm
+- Backend FastAPI em execução em `http://127.0.0.1:8000`
 
-## Expanding the ESLint configuration
+## Como executar
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Instale as dependências:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Inicie o servidor de desenvolvimento:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Acesse a aplicação no navegador pelo endereço exibido no terminal. Por padrão, o Vite usa:
+
+```bash
+http://localhost:5173
+```
+
+## Scripts disponíveis
+
+```bash
+npm run dev
+```
+
+Executa o frontend em modo de desenvolvimento.
+
+```bash
+npm run build
+```
+
+Gera a versão de produção e valida os tipos TypeScript.
+
+```bash
+npm run lint
+```
+
+Executa a análise estática do código.
+
+```bash
+npm run preview
+```
+
+Serve localmente a versão gerada pelo build.
+
+## Integração com a API
+
+O frontend consome a API configurada em:
+
+```ts
+http://127.0.0.1:8000
+```
+
+Esse valor está definido em `src/services/api.ts`.
+
+## Estrutura principal
+
+- `src/pages/login.tsx` - tela de login e cadastro
+- `src/pages/tasklist-page.tsx` - tela principal da lista de tarefas
+- `src/services/api.ts` - integração com os endpoints do backend
+- `src/hooks/use-auth.tsx` - controle de autenticação
+- `src/hooks/use-tasks.tsx` - controle de tarefas
+- `src/components/` - componentes reutilizáveis da interface

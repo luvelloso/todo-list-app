@@ -1,1 +1,11 @@
 @import "tailwindcss";
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+ 
+html, body, #root {
+  height: 100%;
+}
+ 
