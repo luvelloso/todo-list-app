@@ -18,6 +18,11 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
           onChange={() => onToggle(task.id)}
           label={task.text}
         />
+        {task.description && (
+          <p className="ml-7 mt-1 max-w-xl truncate text-xs leading-4 text-[#6D7A53]">
+            {task.description}
+          </p>
+        )}
       </div>
 
       <button
@@ -25,7 +30,6 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         onClick={() => onDelete(task.id)}
         className="ml-3 flex h-7 w-7 items-center justify-center rounded-full text-[#7D993B] hover:bg-[#F3F5EA]"
       >
-        {/* Lucide Trash2-like icon */}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="3 6 5 6 21 6"></polyline>
           <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>

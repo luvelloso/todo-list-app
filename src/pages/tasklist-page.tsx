@@ -41,8 +41,8 @@ export function TaskListPage({ initialTasks, user, onLogout }: TaskListPageProps
         day:     'numeric',
       })
 
-  async function handleAdd(text: string, categoryId: CategoryId) {
-    await addTask(text, categoryId, selectedDate)
+  async function handleAdd(text: string, categoryId: CategoryId, description?: string) {
+    await addTask(text, categoryId, selectedDate, description)
   }
 
   return (
@@ -97,7 +97,6 @@ export function TaskListPage({ initialTasks, user, onLogout }: TaskListPageProps
         )}
       </main>
 
-      {/* Add task bar */}
       <div className="mt-4">
         <AddTaskBar onAdd={handleAdd} />
       </div>

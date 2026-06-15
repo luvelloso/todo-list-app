@@ -13,7 +13,7 @@ export type TokenResponse = {
 
 export type Todo = {
 	title: string
-	description: string
+	description?: string | null
 	status: 'pending' | 'completed'
 	scheduled_date: string
 	id: number
@@ -77,11 +77,12 @@ export async function createTodo(
 	category: string,
 	status: Todo['status'],
 	scheduled_date: string,
+	description?: string,
 ): Promise<Todo> {
 	const res = await fetch(`${API_URL}/todos`, {
 		method: 'POST',
 		headers: authHeaders(true),
-		body: JSON.stringify({ title, category, status, scheduled_date }),
+		body: JSON.stringify({ title, description, category, status, scheduled_date }),
 	})
 
 	return handleResponse(res)

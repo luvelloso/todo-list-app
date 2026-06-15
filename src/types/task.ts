@@ -8,6 +8,7 @@ export interface Category {
 export interface Task {
   id: string
   text: string
+  description?: string
   categoryId: CategoryId
   completed: boolean
   createdAt: string,

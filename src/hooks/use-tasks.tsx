@@ -17,12 +17,18 @@ export function useTasks(initialTasks?: Task[]) {
     saveTasks(updated)
   }, [])
 
-  async function addTask(text: string, categoryId: CategoryId, scheduledDate: string) {
-    const todo = await createTodo(text, categoryId, 'pending', scheduledDate)
+  async function addTask(
+    text: string,
+    categoryId: CategoryId,
+    scheduledDate: string,
+    description?: string
+  ) {
+    const todo = await createTodo(text, categoryId, 'pending', scheduledDate, description)
 
     const task: Task = {
       id: String(todo.id),
       text,
+      description: todo.description ?? undefined,
       categoryId,
       completed: todo.status === 'completed',
       createdAt: todo.created_at,
@@ -41,6 +47,7 @@ export function useTasks(initialTasks?: Task[]) {
       const mapped = (todos as ApiTodo[]).map((t) => ({
         id: String(t.id),
         text: t.title,
+        description: t.description ?? undefined,
         categoryId: DEFAULT_CATEGORY_ID,
         completed: t.status === 'completed',
         createdAt: t.created_at,
