@@ -25,8 +25,7 @@ export function TaskListPage({ initialTasks, user, onLogout }: TaskListPageProps
   const { tasks, addTask, toggleTask, deleteTask, loadTasksForDate } = useTasks(initialTasks)
 
   useEffect(() => {
-    // carregar tarefas do backend para a data selecionada
-    loadTasksForDate(selectedDate).catch(console.error)
+    loadTasksForDate(selectedDate)
   }, [selectedDate, loadTasksForDate])
 
   const dayTasks = tasks.filter((t) => (t.scheduledDate ?? t.createdAt) === selectedDate)
@@ -36,7 +35,7 @@ export function TaskListPage({ initialTasks, user, onLogout }: TaskListPageProps
   const isToday  = selectedDate === today
   const dateLabel = isToday
     ? 'Today'
-    : new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-US', {
+    : new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', {
         weekday: 'long',
         month:   'short',
         day:     'numeric',

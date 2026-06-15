@@ -18,25 +18,18 @@ export function useTasks(initialTasks?: Task[]) {
   }, [])
 
   async function addTask(text: string, categoryId: CategoryId, scheduledDate: string) {
-    try {
-      console.log('useTasks.addTask -> creating', { text, categoryId, scheduledDate })
-      const todo = await createTodo(text, categoryId, 'pending', scheduledDate)
-      console.log('useTasks.addTask -> created remote todo', todo)
+    const todo = await createTodo(text, categoryId, 'pending', scheduledDate)
 
-      const task: Task = {
-        id: String(todo.id),
-        text,
-        categoryId,
-        completed: todo.status === 'completed',
-        createdAt: todo.created_at,
-        scheduledDate,
-      }
-
-      persist([...tasks, task])
-    } catch (error) {
-      console.error('Failed to create todo', error)
-      throw error
+    const task: Task = {
+      id: String(todo.id),
+      text,
+      categoryId,
+      completed: todo.status === 'completed',
+      createdAt: todo.created_at,
+      scheduledDate,
     }
+
+    persist([...tasks, task])
   }
 
   const loadTasksForDate = useCallback(async (date: string) => {
@@ -62,8 +55,8 @@ export function useTasks(initialTasks?: Task[]) {
         return merged
       })
       loadedDates.current.add(date)
-    } catch (err) {
-      console.error('Failed to load todos for date', date, err)
+    } catch {
+      return
     }
   }, [])
 
@@ -81,8 +74,7 @@ export function useTasks(initialTasks?: Task[]) {
 
       try {
         await updateTodoStatus(todoId, task.completed ? 'completed' : 'pending')
-      } catch (err) {
-        console.error('useTasks.toggleTask -> failed to update remote todo', err)
+      } catch {
         persist(prev)
       }
     }
@@ -95,11 +87,7 @@ export function useTasks(initialTasks?: Task[]) {
     if (/^\d+$/.test(id)) {
       const nid = Number(id)
       deleteTodo(nid)
-        .then(() => {
-          console.log('useTasks.deleteTask -> deleted remote todo', nid)
-        })
-        .catch((err) => {
-          console.error('useTasks.deleteTask -> failed to delete remote todo', id, err)
+        .catch(() => {
           persist(prev)
         })
     }

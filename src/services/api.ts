@@ -78,21 +78,13 @@ export async function createTodo(
 	status: Todo['status'],
 	scheduled_date: string,
 ): Promise<Todo> {
-	console.log('API: createTodo -> request', { title, category, status, scheduled_date })
 	const res = await fetch(`${API_URL}/todos`, {
 		method: 'POST',
 		headers: authHeaders(true),
 		body: JSON.stringify({ title, category, status, scheduled_date }),
 	})
 
-	try {
-		const data = await handleResponse(res)
-		console.log('API: createTodo -> response', data)
-		return data
-	} catch (err) {
-		console.error('API: createTodo -> error', err)
-		throw err
-	}
+	return handleResponse(res)
 }
 
 export async function getTodos(status?: string, scheduled_date?: string): Promise<Todo[]> {

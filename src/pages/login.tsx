@@ -46,10 +46,8 @@ export function LoginPage({ onAuthenticate }: LoginPageProps) {
 
     try {
       if (isSignup) {
-        console.log('Auth: register attempt', { email, full_name: name })
         await register(email, name, password)
         setMode('login')
-        console.log('Auth: register success', { email })
         toast.success('Conta criada com sucesso. Faça login para continuar.')
         setName('')
         setAcceptedTerms(false)
@@ -59,12 +57,9 @@ export function LoginPage({ onAuthenticate }: LoginPageProps) {
         return
       }
 
-      console.log('Auth: login attempt', { email })
       const me = await login(email, password)
-      console.log('Auth: login success', { email })
       if (me) onAuthenticate(me)
     } catch (error) {
-      console.error('Auth error', error)
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
@@ -136,7 +131,7 @@ export function LoginPage({ onAuthenticate }: LoginPageProps) {
                     : 'bg-transparent text-[#4A5F39] hover:bg-[#E5F0D3]'
                 }`}
               >
-                {tab === 'login' ? 'Login' : 'Criar usuário'}
+                {tab === 'login' ? 'Login' : 'Create user'}
               </button>
             ))}
           </div>

@@ -19,7 +19,7 @@ export function useAuth() {
 			try {
 				const me = await api.getCurrentUser()
 				if (mounted) setUser(me)
-			} catch (e) {
+			} catch {
 				localStorage.removeItem('token')
 			} finally {
 				if (mounted) setLoading(false)

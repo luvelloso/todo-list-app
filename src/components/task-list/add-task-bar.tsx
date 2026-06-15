@@ -22,7 +22,6 @@ export function AddTaskBar({ onAdd }: AddTaskBarProps) {
 
   return (
     <div className="border-t border-[#E6EAD4] bg-[#FCFDF9] px-4 py-3">
-      {/* Category selector */}
       <div className="mb-2 flex gap-1.5 overflow-x-auto scrollbar-none" style={{ scrollbarWidth: 'none' }}>
         {CATEGORIES.map((cat) => (
           <button
@@ -41,7 +40,6 @@ export function AddTaskBar({ onAdd }: AddTaskBarProps) {
         ))}
       </div>
 
-      {/* Input row */}
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <Input
           value={text}
