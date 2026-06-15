@@ -1,17 +1,47 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LoginPage } from './pages/login'
 import { TaskListPage } from './pages/tasklist-page'
+import { getCurrentUser, type User } from './services/api'
 
 export function AppRouter() {
-  const [authenticated, setAuthenticated] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  function handleAuthenticate() {
-    setAuthenticated(true)
+  useEffect(() => {
+    async function init() {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        setLoading(false)
+        return
+      }
+
+      try {
+        const me = await getCurrentUser()
+        setUser(me)
+      } catch {
+        localStorage.removeItem('token')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    init()
+  }, [])
+
+  function handleAuthenticate(user: User) {
+    setUser(user)
   }
 
-  const page = !authenticated
-    ? <LoginPage onAuthenticate={handleAuthenticate} />
-    : <TaskListPage />
+  function handleLogout() {
+    localStorage.removeItem('token')
+    setUser(null)
+  }
+
+  const page = loading
+    ? null
+    : user
+      ? <TaskListPage user={user} onLogout={handleLogout} />
+      : <LoginPage onAuthenticate={handleAuthenticate} />
 
   return (
     <div className="min-h-screen bg-[#F6F7F1]">

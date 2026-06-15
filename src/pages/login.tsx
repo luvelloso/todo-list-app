@@ -13,8 +13,10 @@ const BRAND = {
   dark: 'text-[#1F2B18]',
 }
 
+import type { User } from '../services/api'
+
 interface LoginPageProps {
-  onAuthenticate: () => void
+  onAuthenticate: (user: User) => void
 }
 
 export function LoginPage({ onAuthenticate }: LoginPageProps) {
@@ -58,9 +60,9 @@ export function LoginPage({ onAuthenticate }: LoginPageProps) {
       }
 
       console.log('Auth: login attempt', { email })
-      await login(email, password)
+      const me = await login(email, password)
       console.log('Auth: login success', { email })
-      onAuthenticate()
+      if (me) onAuthenticate(me)
     } catch (error) {
       console.error('Auth error', error)
       if (error instanceof Error) {

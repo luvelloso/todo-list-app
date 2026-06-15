@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { PageLayout } from '../components/shared/layout'
+import { UserBadge } from '../components/shared/user-badge'
 import { DateStrip } from '../components/task-list/date-strip'
 import { TaskSection } from '../components/task-list/task-section'
 import { AddTaskBar } from '../components/task-list/add-task-bar'
 import { useTasks } from '../hooks/use-tasks'
 import { CATEGORIES } from '../lib/constants'
 import type { CategoryId, Task } from '../types/task'
+import type { User } from '../services/api'
 
 function toISODate(d: Date): string {
   return d.toISOString().split('T')[0]
@@ -13,9 +15,11 @@ function toISODate(d: Date): string {
 
 interface TaskListPageProps {
   initialTasks?: Task[]
+  user?: User
+  onLogout?: () => void
 }
 
-export function TaskListPage({ initialTasks }: TaskListPageProps) {
+export function TaskListPage({ initialTasks, user, onLogout }: TaskListPageProps) {
   const today                       = toISODate(new Date())
   const [selectedDate, setDate]     = useState(today)
   const { tasks, addTask, toggleTask, deleteTask, loadTasksForDate } = useTasks(initialTasks)
@@ -46,13 +50,17 @@ export function TaskListPage({ initialTasks }: TaskListPageProps) {
     <PageLayout variant="single">
       {/* Header */}
       <header className="px-0 pt-4 pb-4">
-        <div className="flex flex-wrap items-baseline gap-3">
-          <h1 className="text-3xl font-bold tracking-tight text-[#23320F]">
-            {dateLabel}
-          </h1>
-          <span className="rounded-full bg-[#F3F5EA] px-3 py-1 text-sm font-semibold text-[#5A6B49]">
-            {completedCount}/{totalCount || 1} done
-          </span>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-baseline gap-3">
+            <h1 className="text-3xl font-bold tracking-tight text-[#23320F]">
+              {dateLabel}
+            </h1>
+            <span className="rounded-full bg-[#F3F5EA] px-3 py-1 text-sm font-semibold text-[#5A6B49]">
+              {completedCount}/{totalCount || 1} done
+            </span>
+          </div>
+
+          {user && onLogout && <UserBadge user={user} onLogout={onLogout} />}
         </div>
 
         {totalCount > 0 && (

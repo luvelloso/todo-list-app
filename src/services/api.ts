@@ -2,7 +2,8 @@ export const API_URL = 'http://127.0.0.1:8000'
 
 export type User = {
 	id: number
-	username: string
+	email: string
+	full_name: string
 }
 
 export type TokenResponse = {
